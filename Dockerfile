@@ -9,14 +9,18 @@ RUN git clone https://github.com/kosavan/Lampac_backup_18_09_2024.git .
 # Компілюємо
 RUN dotnet publish Lampac/Lampac.csproj -c Release -o /app/publish
 
-# Етап 2: Запуск (тут був баг, ми його фіксимо)
+# Етап 2: Запуск
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# 🔥 ФІКС ПОМИЛКИ: Додаємо підтримку мов (icu-libs)
+# 🔥 ФІКС ПОМИЛОК:
+# 1. Додаємо мовні пакети
 RUN apk add --no-cache icu-libs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
+# 2. Створюємо папку module, щоб не було помилки DirectoryNotFoundException
+RUN mkdir -p /app/module
 
 # Відкриваємо порт
 EXPOSE 9118
