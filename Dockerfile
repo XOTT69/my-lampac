@@ -21,8 +21,8 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 # 2. Створюємо папку module
 RUN mkdir -p /app/module
 
-# 3. 🔥 ВСТАНОВЛЮЄМО ПАРОЛЬ: mypassword123
-RUN echo "mypassword123" > /app/passwd
+# 3. 🔥 ВСТАНОВЛЮЄМО ПАРОЛЬ 123456
+RUN echo "123456" > passwd
 
 # Відкриваємо порт
 EXPOSE 9118
