@@ -1,21 +1,21 @@
 # Використовуємо легкий Alpine Linux з Node.js
 FROM node:18-alpine
 
-# Встановлюємо необхідні утиліти
-RUN apk add --no-cache git bash curl
+# Встановлюємо git
+RUN apk add --no-cache git
 
 # Створюємо робочу папку
 WORKDIR /app
 
-# Клонуємо ЛЕГКУ версію Lampac (Lampa-Lite)
-# Це JS-версія, вона не потребує компіляції і працює миттєво
+# Клонуємо код
 RUN git clone https://github.com/yumata/lampa-lite.git .
 
-# Встановлюємо залежності (якщо треба) і права
-RUN chmod +x start.sh
+# Встановлюємо залежності (про всяк випадок)
+RUN npm install --production || true
 
 # Відкриваємо порт
 EXPOSE 9118
 
-# Запускаємо!
-CMD ["./start.sh"]
+# Запускаємо через Node.js (файл index.js або app.js)
+# Lampa Lite зазвичай запускається через 'node index.js' або 'npm start'
+CMD ["node", "index.js"]
